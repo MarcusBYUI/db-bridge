@@ -44,7 +44,7 @@ app.post("/query", async (req, res, next) => {
 });
 
 const whitelist = [
-    "https://impulse-backend-qltrc.ondigitaloceantorenderspoti.app"
+    "https://impulse-backend-qltrc.digitalisnhoceantorensder.app"
 ];
 const corsOptions = {
     origin: function(origin, callback) {
