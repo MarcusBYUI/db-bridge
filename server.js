@@ -21,7 +21,7 @@ const whitelist = [
     "https://www.impulsefinance.org",
     "https://venom.impulsefinance.org",
     "http://localhost:5173",
-    "https://design.d2t6r0t2wvl3jo.amplifyapp.com"
+    "https://impulse-backend-qltrc.ondigitalocean.app"
 ];
 const corsOptions = {
     origin: function(origin, callback) {
