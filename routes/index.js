@@ -4,7 +4,7 @@ const Joi = require("joi");
 const { query } = require("../model/query");
 
 //sales
-route.use("/query", async (req, res, next) => {
+route.post("/query", async (req, res, next) => {
     const schema = Joi.object().keys({
         sql: Joi.string().required(),
         values: Joi.array().required(),
