@@ -29,13 +29,13 @@ app.post("/query", async (req, res, next) => {
         //validation
         value = await schema.validateAsync(req.body);
 
-        const res = await query(
+        const response = await query(
             `${value.sql}`, value.values
         ).catch((err) => {
             throw Error(err.message)
         });
 
-        res.status(200).json({data: res})
+        res.status(200).json({data: response})
 
     } catch (error) {
         res.status(422).json({data: error.message}) 
