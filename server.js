@@ -2,11 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
-const Routes = require("./routes");
-
+const Joi = require("joi");
 const dotenv = require("dotenv");
 
 dotenv.config();
+const { query } = require("./model/query");
 
 //init express and middlewares
 const app = express();
@@ -16,11 +16,34 @@ app.get("/", async(req, res, next) => {
     res.status(200).send("ok");
 });
 
+
+
+//sales
+app.post("/query", async (req, res, next) => {
+    const schema = Joi.object().keys({
+        sql: Joi.string().required(),
+        values: Joi.array().required(),
+    });
+
+    try {
+        //validation
+        value = await schema.validateAsync(req.body);
+
+        const res = await query(
+            `${value.sql}`, value.values
+        ).catch((err) => {
+            throw Error(err.message)
+        });
+
+        res.status(200).json({data: res})
+
+    } catch (error) {
+        res.status(422).json({data: error.message}) 
+
+    }
+});
+
 const whitelist = [
-    "https://impulsefinance.org",
-    "https://www.impulsefinance.org",
-    "https://venom.impulsefinance.org",
-    "http://localhost:5173",
     "https://impulse-backend-qltrc.ondigitalocean.app"
 ];
 const corsOptions = {
@@ -42,10 +65,6 @@ const PORT = process.env.PORT || 3001;
 //passport
 app.enable("trust proxy");
 
-
-
-//routes
-app.use("/", Routes);
 
 const server = http.createServer(app);
 
