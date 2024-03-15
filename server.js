@@ -17,7 +17,17 @@ app.get("/", async(req, res, next) => {
 });
 
 
-
+const apiKeyMiddleware = (req, res, next) => {
+    const key = req.headers['key'];
+  
+    if (!key || key !== process.env.APIKEY) {
+      return res.status(401).json({ error: 'Invalid Route' });
+    }
+  
+    next();
+  };
+  
+  app.use(apiKeyMiddleware);
 //sales
 app.post("/query", async (req, res, next) => {
     const schema = Joi.object().keys({
